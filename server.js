@@ -13,6 +13,22 @@ app.listen(process.env.PORT || 3000, ()=> {
 })
 
 
+app.get('/', async function (req, res) {
+    res.end('Gmail Server')
+})
+
+app.get('/ip', async function (req, res) {
+    request({
+        url: 'https://ifconfig.me/ip'
+    }, function (error, response, body) {
+        if (error) {
+            res.end('0.0.0.0')
+        } else {
+            res.end(body.toString())
+        }
+    })
+})
+
 app.post('/', async function (req, res) {
     if(req.body) {
         try {
@@ -28,7 +44,6 @@ app.post('/', async function (req, res) {
                 if (error) {
                     res.end(JSON.stringify({ 'status': 'ERROR' }))
                 } else {
-                    console.log(body)
                     if (body.includes('"er"')) {
                         res.end(JSON.stringify({ 'status': 'ERROR' }))
                     } else {
