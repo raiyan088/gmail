@@ -37,7 +37,7 @@ app.post('/', async function (req, res) {
             request({
                 url: 'https://accounts.google.com/_/signup/'+mData['url'],
                 method: 'POST',
-                headers: getHeader(mData['cookies']),
+                headers: getHeader(mData['cookies'], mData['user']),
                 gzip: true,
                 body: getPostBody(mData['fReq'], mData['azt'], mData['id'])
             }, function (error, response, body) {
@@ -79,12 +79,12 @@ function getPostBody(fReq, azt, device) {
 }
 
 
-function getHeader(cookies) {
+function getHeader(cookies, user) {
     return {
         'Host': 'accounts.google.com',
         'X-Same-Domain': '1',
         'Google-Accounts-Xsrf': '1',
-        'User-Agent': 'Mozilla/5.0 (Linux; Android 6.0; i10 Build/MRA58K; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/49.0.2623.105 Mobile Safari/537.36 MinuteMaid',
+        'User-Agent': user,
         'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
         'Accept': '*/*',
         'Origin': 'https://accounts.google.com',
